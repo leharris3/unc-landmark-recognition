@@ -1,0 +1,46 @@
+dataloader:
+    train:
+        kwargs:
+            batch_size: 16
+            num_workers: 16
+            shuffle: false
+    val:
+        kwargs:
+            batch_size: 32
+            num_workers: 16
+            shuffle: false
+dataset:
+    train:
+        kwargs:
+            split: train
+        target: src.dataloader.unc_landmarks.UNCLandmarksDataset
+    val:
+        kwargs:
+            split: val
+        target: src.dataloader.unc_landmarks.UNCLandmarksDataset
+global:
+    device: 3
+    num_epochs: 200
+logging:
+    exp_name: norm inputs
+    log_interval: 100
+    root: __exps__
+    wandb:
+        api_key: 3d8c09b359c1abc995fd03c27398c41afce857c1
+        log: true
+        save_figure_step: 100
+loss:
+    train:
+        kwargs: {}
+        target: src.util.loss.CategoricalCrossEntropy
+    val:
+        kwargs: {}
+        target: src.util.loss.CategoricalCrossEntropy
+model:
+    kwargs:
+        num_classes: 5
+    target: src.model.resnet.ResNet152
+optimizer:
+    kwargs:
+        lr: 1.0e-05
+    target: torch.optim.Adam
