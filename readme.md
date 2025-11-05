@@ -7,12 +7,18 @@ import torch.nn.functional as F
 from src.model.resnet import ResNet152
 
 
-model: ResNet152 = torch.load("...pth")
+N_CLASSES = 5
 
-# [B, H, W, C]
-image  = torch.rand(1, 224, 224, 3)
+model     = ResNet152(num_classes=N_CLASSES)
+weights   = torch.load("weights/rs-152-c5-best_params.pth", weights_only=True)
 
-# [B, C]
+# init model weights from checkpoint
+model._parameters = weights
+
+# [B, C, H, W]
+image  = torch.rand(5, 3, 224, 224)
+
+# [B, N]
 pred   = model(image)
 logits = F.softmax(pred, dim=1)
 
@@ -27,6 +33,5 @@ class_map = {
 }
 
 pred_names = [class_map[cls_preds[i].item()] for i in range(cls_preds.shape[0])]
-print(f"Model predictions (B=0, ... B=n): {pred_names}")
 ```
 

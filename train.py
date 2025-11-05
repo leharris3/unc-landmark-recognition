@@ -13,7 +13,6 @@ import torch.nn as nn
 
 from tqdm import tqdm
 from pathlib import Path
-from typing import List, Optional, Any
 from torch.utils.data import DataLoader
 
 from src.util.logger import ExperimentLogger
@@ -25,7 +24,7 @@ torch.multiprocessing.set_sharing_strategy("file_system")
 warnings.simplefilter("ignore")
 
 
-def create_module(target: str, **kwargs) -> Any:
+def create_module(target: str, **kwargs):
     """
     Args
     ---
