@@ -14,7 +14,6 @@ import torch.nn as nn
 from tqdm import tqdm
 from pathlib import Path
 from torch.utils.data import DataLoader
-
 from src.util.logger import ExperimentLogger
 
 
@@ -95,7 +94,7 @@ def train(
 
     # define loss function and optimizer
     train_loss: torch.nn.Module = create_module(config['loss']['train']['target'], **config['loss']['train']['kwargs'])
-    val_loss  : torch.nn.Module = create_module(config['loss']['val']['target'],   **config['loss']['val']['kwargs'])
+    val_loss  : torch.nn.Module = create_module(config['loss']['val'  ]['target'], **config['loss']['val']['kwargs'])
 
     # use to save model checkpoints
     best_val_loss = float("inf")
@@ -132,7 +131,7 @@ def train(
 
             # forward; -> [B, N_CLS]
             y_hat:torch.Tensor = model(X)
-
+            
             loss = train_loss(y_hat, y)
             
             # backprop and step

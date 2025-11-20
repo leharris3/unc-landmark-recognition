@@ -1,3 +1,5 @@
+from tkinter import Image
+import random
 import torch
 import cv2
 import numpy as np
@@ -19,6 +21,10 @@ class UNCLandmarksDataset(Dataset):
         
         img_fps = sorted(glob(f"{DS_BASE_DIR}/*/*/*.jpg", recursive=True) + glob(f"{DS_BASE_DIR}/*/*/*.JPG", recursive=True))
         
+        # always shuffle our dataset the same way
+        random.seed(42)
+        random.shuffle(img_fps)
+        
         self.oh_labels = {}
         
         idx = 0
@@ -29,7 +35,7 @@ class UNCLandmarksDataset(Dataset):
         # [(X, y)]
         self.data_buffer = [[fp, self.oh_labels[Path(fp).parent.parent.name]] for fp in img_fps]
 
-        if split == "train": self.data_buffer = self.data_buffer[:int(len(self.data_buffer) * .8) ]
+        if split   == "train": self.data_buffer = self.data_buffer[:int(len(self.data_buffer) * .8) ]
         elif split == "val": self.data_buffer = self.data_buffer[int(len(self.data_buffer)  * .8):]
         else: raise Exception("bad split")
 
@@ -50,7 +56,7 @@ class UNCLandmarksDataset(Dataset):
 
         # ehhhh.... a litle lazy load
         if type(X) is str:
-            self.data_buffer[index][0] = (cv2.imread(X) / 256)
+            self.data_buffer[index][0] = (cv2.imread(X) / 255)
             X = self.data_buffer[index][0]
 
         H, W, C  = X.shape
@@ -68,5 +74,6 @@ class UNCLandmarksDataset(Dataset):
     
 
 if __name__ == "__main__":
+
     ds = UNCLandmarksDataset(split="train")
     ds[0]

@@ -79,7 +79,7 @@ class CategoricalCrossEntropy(nn.Module):
     def forward(self, logits:torch.Tensor, target:torch.Tensor):
         
         pred = F.softmax(logits, dim=1)
-        return F.binary_cross_entropy(pred, target)
+        return F.cross_entropy(pred, target)
     
 
 class ClassWeightedCategoricalCrossEntropy(nn.Module):

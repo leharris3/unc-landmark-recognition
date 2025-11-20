@@ -1,0 +1,62 @@
+{
+  "global": {
+    "num_epochs": 200,
+    "device": 0
+  },
+  "model": {
+    "target": "src.model.resnet18.Resnet18",
+    "kwargs": {}
+  },
+  "optimizer": {
+    "target": "torch.optim.Adam",
+    "kwargs": {
+      "lr": 1e-5
+    }
+  },
+  "dataset": {
+    "train": {
+      "target": "src.dataloader.cifar10.CIFAR10",
+      "kwargs": {"train": true}
+    },
+    "val": {
+      "target": "src.dataloader.cifar10.CIFAR10",
+      "kwargs": {"train": false}
+    }
+  },
+  "dataloader": {
+    "train": {
+      "kwargs": {
+        "batch_size": 128,
+        "shuffle": false,
+        "num_workers": 16
+      }
+    },
+    "val": {
+      "kwargs": {
+        "batch_size": 32,
+        "shuffle": false,
+        "num_workers": 16
+      }
+    }
+  },
+  "loss": {
+    "train": {
+      "target": "src.util.loss.CategoricalCrossEntropy",
+      "kwargs": {}
+    },
+    "val": {
+      "target": "src.util.loss.CategoricalCrossEntropy",
+      "kwargs": {}
+    }
+  },
+  "logging": {
+    "root": "__exps__",
+    "exp_name": "resnet18-bs128-lr1e-5-CIFAR10-full-ft",
+    "log_interval": 100,
+    "wandb": {
+      "log": true,
+      "api_key": "3d8c09b359c1abc995fd03c27398c41afce857c1",
+      "save_figure_step": 100
+    }
+  }
+}
